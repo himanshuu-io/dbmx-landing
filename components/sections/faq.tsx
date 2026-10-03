@@ -41,7 +41,7 @@ export function Faq() {
       <div className="flex flex-col items-center px-4 pt-12 text-center">
         <Eyebrow>FAQ</Eyebrow>
         <h2 className="mt-4 text-3xl font-medium tracking-[-0.025em] md:text-4xl">Questions, answered</h2>
-        <p className="mt-4 max-w-lg text-ink/90">
+        <p className="mt-4 max-w-lg text-neutral-300">
           Can&apos;t find what you need? The docs go deeper, or our team is a message away.
         </p>
         <div className="mt-8 flex gap-3">

@@ -8,11 +8,7 @@
 
   --color-brand: #e8806c;
   --color-brand-soft: #f3b3a6;
-  --color-divide: #262626;
-  --color-surface: #111111;
-  --color-surface-2: #171717;
-  --color-muted: #a3a3a3;
-  --color-ink: #eaedf1;
+  --color-divide: var(--color-neutral-800);
 
   --animate-marquee: marquee 40s linear infinite;
   --animate-marquee-y: marquee-y 30s linear infinite;

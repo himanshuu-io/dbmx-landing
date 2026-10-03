@@ -75,7 +75,7 @@ export function Hero() {
             ))}
           </h1>
 
-          <motion.p {...fade(afterHeadline)} className="mt-6 max-w-xl text-center text-base text-ink/90 md:text-lg">
+          <motion.p {...fade(afterHeadline)} className="mt-6 max-w-xl text-center text-base text-neutral-300 md:text-lg">
             Wire agents together on one canvas, rehearse every run in a sandbox, and push to production
             without writing glue code.
           </motion.p>

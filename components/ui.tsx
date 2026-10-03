@@ -68,7 +68,7 @@ export function SectionHeading({
     <div className={cn("flex flex-col items-center px-4 text-center", className)}>
       <Eyebrow>{eyebrow}</Eyebrow>
       <h2 className="mt-4 text-3xl font-medium tracking-[-0.025em] text-white md:text-4xl">{title}</h2>
-      {description && <p className="mt-4 max-w-lg text-base text-ink/90">{description}</p>}
+      {description && <p className="mt-4 max-w-lg text-base text-neutral-300">{description}</p>}
     </div>
   );
 }
