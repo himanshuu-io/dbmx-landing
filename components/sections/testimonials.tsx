@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Wordmark, wordmarks } from "@/components/sections/logos";
+import { Eyebrow } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 const quotes = [
@@ -11,7 +12,6 @@ const quotes = [
       "We replaced a tangle of cron jobs and scripts with four DBMX pipelines. Replays caught two regressions before they ever reached a customer.",
     name: "Priya Raman",
     role: "Staff Engineer, Northwind",
-    gradient: "from-brand to-amber-300",
     logo: 0,
   },
   {
@@ -19,7 +19,6 @@ const quotes = [
       "Our support queue is half the size it was in spring. The agents close the easy tickets and hand us the hard ones with the whole trail attached.",
     name: "Marcus Oyelaran",
     role: "Head of Support, lumen",
-    gradient: "from-sky-400 to-indigo-400",
     logo: 1,
   },
   {
@@ -27,7 +26,6 @@ const quotes = [
       "Per-step cost tracking was the unlock for us. Finance finally signed off on running agents in production because they could see every cent.",
     name: "Elena Sørensen",
     role: "VP Engineering, Helio Labs",
-    gradient: "from-emerald-400 to-teal-300",
     logo: 3,
   },
 ];
@@ -49,32 +47,29 @@ export function Testimonials() {
   const q = quotes[i];
 
   return (
-    <section className="mx-auto max-w-7xl border-x border-divide">
-      <p className="py-8 text-center font-mono text-xs tracking-widest text-neutral-300 uppercase">
-        What teams are saying
-      </p>
+    <section className="mx-auto max-w-7xl border-x border-divide px-4 py-16 md:px-8 md:py-20">
+      <div className="flex justify-center">
+        <Eyebrow>What teams are saying</Eyebrow>
+      </div>
 
-      <div className="grid gap-6 border-t border-divide bg-neutral-900/70 p-4 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:p-8">
-        <div className="relative aspect-square max-h-[380px] w-full overflow-hidden rounded-xl bg-neutral-950 md:aspect-auto md:h-full md:min-h-[320px]">
+      {/* The page's one Warm Cream moment: an editorial pull quote. */}
+      <div className="mt-10 grid gap-6 rounded-2xl bg-cream p-4 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-10 md:p-6">
+        <div className="bg-brand-gradient relative aspect-square max-h-[380px] w-full overflow-hidden rounded-xl md:aspect-auto md:h-full md:min-h-[340px]">
           <AnimatePresence mode="wait">
-            <motion.div
+            <motion.span
               key={i}
-              initial={{ opacity: 0, scale: 1.04 }}
+              initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className={cn("absolute inset-0 bg-gradient-to-br opacity-80", q.gradient)}
-            />
-          </AnimatePresence>
-          <div className="bg-dots absolute inset-0 opacity-60" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="flex size-28 items-center justify-center rounded-full border border-white/30 bg-black/30 text-4xl font-medium tracking-tight backdrop-blur">
+              transition={{ duration: 0.4 }}
+              className="absolute inset-0 flex items-center justify-center text-7xl font-medium tracking-[-0.04em] text-neutral-950/85 md:text-8xl"
+            >
               {initials(q.name)}
-            </span>
-          </div>
+            </motion.span>
+          </AnimatePresence>
         </div>
 
-        <div className="flex flex-col justify-between py-2">
+        <div className="flex flex-col justify-between px-2 py-2 md:px-0 md:py-4 md:pr-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={i}
@@ -83,13 +78,13 @@ export function Testimonials() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.35 }}
             >
-              <Wordmark index={q.logo} className="text-white" />
-              <blockquote className="mt-6 text-lg leading-relaxed text-white md:text-xl">
+              <Wordmark index={q.logo} className="text-neutral-950" />
+              <blockquote className="mt-6 text-xl leading-snug font-medium tracking-[-0.02em] text-neutral-950 md:text-2xl">
                 &ldquo;{q.quote}&rdquo;
               </blockquote>
               <div className="mt-10">
-                <p className="font-medium text-white">{q.name}</p>
-                <p className="mt-1 text-sm text-neutral-400">{q.role}</p>
+                <p className="font-medium text-neutral-950">{q.name}</p>
+                <p className="mt-1 text-sm text-neutral-600">{q.role}</p>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -105,7 +100,7 @@ export function Testimonials() {
                 onClick={() => setI(idx)}
                 className={cn(
                   "h-1.5 rounded-full transition-all",
-                  idx === i ? "w-8 bg-brand" : "w-4 bg-white/20 hover:bg-white/40",
+                  idx === i ? "w-8 bg-coral" : "w-4 bg-neutral-300 hover:bg-neutral-400",
                 )}
               />
             ))}
@@ -113,23 +108,30 @@ export function Testimonials() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 border-t border-divide md:grid-cols-6">
-        {wordmarks.map((_, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={() => {
-              const found = quotes.findIndex((qq) => qq.logo === idx);
-              if (found >= 0) setI(found);
-            }}
-            className={cn(
-              "flex h-20 items-center justify-center border-divide transition-colors [&:not(:last-child)]:border-r max-md:[&:nth-child(2n)]:border-r-0 max-md:[&:nth-child(-n+4)]:border-b",
-              q.logo === idx ? "bg-neutral-800" : "hover:bg-white/[0.03]",
-            )}
-          >
-            <Wordmark index={idx} className="scale-90 opacity-80" />
-          </button>
-        ))}
+      <div className="mt-10 grid grid-cols-2 gap-y-6 sm:grid-cols-3 lg:grid-cols-6">
+        {wordmarks.map((_, idx) => {
+          const selected = q.logo === idx;
+          return (
+            <button
+              key={idx}
+              type="button"
+              aria-pressed={selected}
+              onClick={() => {
+                const found = quotes.findIndex((qq) => qq.logo === idx);
+                if (found >= 0) setI(found);
+              }}
+              className="flex h-10 items-center justify-center"
+            >
+              <Wordmark
+                index={idx}
+                className={cn(
+                  "scale-90 transition-colors",
+                  selected ? "text-neutral-50" : "text-neutral-500 hover:text-neutral-300",
+                )}
+              />
+            </button>
+          );
+        })}
       </div>
     </section>
   );

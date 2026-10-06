@@ -1,5 +1,5 @@
-import { Lock, ShieldCheck } from "lucide-react";
-import { Button } from "@/components/ui";
+import { ShieldCheck } from "lucide-react";
+import { Button, Eyebrow } from "@/components/ui";
 
 const badges = [
   { label: "SOC 2", sub: "Type II" },
@@ -9,16 +9,16 @@ const badges = [
 
 export function Security() {
   return (
-    <div className="mx-auto grid max-w-7xl gap-10 border-x border-divide bg-neutral-900/70 px-6 py-12 md:grid-cols-2 md:px-8">
+    <div className="mx-auto grid max-w-7xl gap-10 border-x border-divide bg-neutral-900 px-6 py-14 md:grid-cols-2 md:px-10">
       <div>
-        <p className="flex items-center gap-2 font-mono text-xs tracking-widest text-neutral-300 uppercase">
-          <Lock className="size-3.5" /> Security by default
-        </p>
-        <h2 className="mt-4 text-2xl font-medium tracking-tight md:text-3xl">Enterprise controls from day one</h2>
+        <Eyebrow>Security by default</Eyebrow>
+        <h2 className="mt-5 text-2xl font-medium tracking-[-0.025em] text-neutral-50 md:text-3xl">
+          Enterprise controls from day one
+        </h2>
         <p className="mt-3 max-w-md text-neutral-400">
           Secrets stay encrypted, every tool call is logged, and you choose where your data lives.
         </p>
-        <Button href="#" className="mt-6">
+        <Button href="#" variant="secondary" className="mt-7">
           Read the security overview
         </Button>
       </div>
@@ -26,11 +26,11 @@ export function Security() {
         {badges.map((b) => (
           <div
             key={b.label}
-            className="flex size-28 flex-col items-center justify-center rounded-full border border-white/10 bg-black text-center shadow-[inset_0_0_0_6px_rgb(255_255_255/0.03)]"
+            className="flex size-28 flex-col items-center justify-center rounded-full bg-neutral-950 text-center"
           >
-            <ShieldCheck className="size-5 text-brand" />
-            <span className="mt-1.5 text-sm font-medium">{b.label}</span>
-            <span className="text-[10px] text-neutral-500">{b.sub}</span>
+            <ShieldCheck className="size-5 text-neutral-400" />
+            <span className="mt-1.5 text-sm font-medium text-neutral-50">{b.label}</span>
+            <span className="text-[11px] text-neutral-500">{b.sub}</span>
           </div>
         ))}
       </div>

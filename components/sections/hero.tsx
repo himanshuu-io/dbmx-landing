@@ -4,6 +4,7 @@ import { Fragment, useRef } from "react";
 import { MotionConfig, motion } from "motion/react";
 import { Star } from "lucide-react";
 import { Button, CornerMarks, Eyebrow } from "@/components/ui";
+import { cn } from "@/lib/utils";
 import { DashboardMock } from "@/components/sections/dashboard-mock";
 import { BlackHole } from "@/components/black-hole";
 
@@ -15,15 +16,15 @@ const fade = (delay: number) => ({
   transition: { duration: 0.8, delay, ease },
 });
 
-// Headline words; `from`/`to` slice the brand gradient across the highlighted phrase.
-const headline: { text: string; br?: boolean; from?: string; to?: string }[] = [
+// Headline words; `accent` words are set in Warm Cream as the editorial moment.
+const headline: { text: string; br?: boolean; accent?: boolean }[] = [
   { text: "Orchestrate" },
   { text: "and" },
   { text: "replay", br: true },
   { text: "your" },
-  { text: "AI", from: "rgb(232 128 108)", to: "rgb(236 145 127)" },
-  { text: "agent", from: "rgb(236 145 127)", to: "rgb(239 162 147)" },
-  { text: "pipelines", from: "rgb(239 162 147)", to: "rgb(243 179 166)" },
+  { text: "AI", accent: true },
+  { text: "agent", accent: true },
+  { text: "pipelines", accent: true },
 ];
 
 const HEADLINE_START = 0.3;
@@ -49,25 +50,16 @@ export function Hero() {
             <Eyebrow>Built for teams shipping agents to production</Eyebrow>
           </motion.div>
 
-          <h1 className="mt-5 max-w-3xl text-center text-4xl leading-[1.05] font-medium tracking-[-0.03em] text-white sm:text-5xl md:text-6xl">
+          <h1 className="mt-5 max-w-3xl text-center text-4xl leading-[1.05] font-medium tracking-[-0.04em] text-neutral-50 sm:text-5xl md:text-6xl">
             {headline.map((w, i) => (
               <Fragment key={w.text}>
                 <motion.span
-                  className="inline-block"
+                  className={cn("inline-block", w.accent && "text-cream")}
                   initial={{ opacity: 0, y: "0.35em", filter: "blur(12px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   transition={{ duration: 0.9, delay: HEADLINE_START + i * WORD_STAGGER, ease }}
                 >
-                  {w.from ? (
-                    <span
-                      className="bg-clip-text text-transparent"
-                      style={{ backgroundImage: `linear-gradient(to right, ${w.from}, ${w.to})` }}
-                    >
-                      {w.text}
-                    </span>
-                  ) : (
-                    w.text
-                  )}
+                  {w.text}
                 </motion.span>
                 {i < headline.length - 1 && " "}
                 {w.br && <br className="hidden sm:block" />}
@@ -93,12 +85,12 @@ export function Hero() {
           >
             <div className="flex items-center gap-0.5" aria-label="Rated 4.9 out of 5">
               {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="size-3.5 fill-white text-white" />
+                <Star key={i} className="size-3.5 fill-neutral-50 text-neutral-50" />
               ))}
             </div>
             <span className="hidden h-4 w-px bg-neutral-700 sm:block" />
             <span>
-              4.9 average from <span className="text-white">1,200+</span> engineering teams
+              4.9 average from <span className="text-neutral-50">1,200+</span> engineering teams
             </span>
           </motion.div>
         </div>
@@ -106,7 +98,7 @@ export function Hero() {
 
       <div className="h-px w-full bg-divide" />
 
-      <div className="relative mx-auto max-w-7xl border-x border-divide bg-neutral-900/60 bg-hatch">
+      <div className="relative mx-auto max-w-7xl border-x border-divide bg-hatch">
         <CornerMarks />
         <motion.div
           initial={{ opacity: 0, y: 40 }}

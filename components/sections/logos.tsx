@@ -28,7 +28,7 @@ function Mark({ type }: { type: string | null }) {
 export function Wordmark({ index, className }: { index: number; className?: string }) {
   const w = wordmarks[index % wordmarks.length];
   return (
-    <span className={cn("flex items-center gap-2 text-neutral-300", className)}>
+    <span className={cn("flex items-center gap-2", className)}>
       <Mark type={w.mark} />
       <span className={w.className}>{w.name}</span>
     </span>
@@ -37,21 +37,14 @@ export function Wordmark({ index, className }: { index: number; className?: stri
 
 export function Logos() {
   return (
-    <div className="mx-auto max-w-7xl border-x border-divide">
-      <p className="py-8 text-center font-mono text-xs tracking-widest text-neutral-300 uppercase">
+    <div className="mx-auto max-w-7xl border-x border-divide px-6 py-12 md:px-10">
+      <p className="text-center font-mono text-xs tracking-[0.14em] text-neutral-500 uppercase">
         Powering agent teams at
       </p>
-      <div className="grid grid-cols-2 border-t border-divide md:grid-cols-3">
+      <div className="mt-8 grid grid-cols-2 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
         {wordmarks.map((_, i) => (
-          <div
-            key={i}
-            className={cn(
-              "group flex h-24 items-center justify-center border-divide transition-colors hover:bg-white/[0.02] md:h-[100px]",
-              "border-b [&:nth-last-child(-n+2)]:border-b-0 md:[&:nth-last-child(-n+3)]:border-b-0",
-              "odd:border-r md:border-r md:odd:border-r md:[&:nth-child(3n)]:border-r-0",
-            )}
-          >
-            <Wordmark index={i} className="transition group-hover:text-white" />
+          <div key={i} className="group flex h-10 items-center justify-center">
+            <Wordmark index={i} className="text-neutral-500 transition-colors group-hover:text-neutral-200" />
           </div>
         ))}
       </div>

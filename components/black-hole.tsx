@@ -44,23 +44,28 @@ float hash21(vec2 p) {
   return fract(p.x * p.y);
 }
 
-float noise(vec2 p) {
+// Value noise that tiles every "period" cells along y. Used with y = turns * period so the
+// texture wraps around the disk with no seam where atan() jumps from +pi to -pi.
+float noiseP(vec2 p, float period) {
   vec2 i = floor(p);
   vec2 f = fract(p);
   vec2 u = f * f * (3.0 - 2.0 * f);
-  float a = hash21(i);
-  float b = hash21(i + vec2(1.0, 0.0));
-  float c = hash21(i + vec2(0.0, 1.0));
-  float d = hash21(i + vec2(1.0, 1.0));
+  float y0 = mod(i.y, period);
+  float y1 = mod(i.y + 1.0, period);
+  float a = hash21(vec2(i.x, y0));
+  float b = hash21(vec2(i.x + 1.0, y0));
+  float c = hash21(vec2(i.x, y1));
+  float d = hash21(vec2(i.x + 1.0, y1));
   return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
 }
 
-float fbm(vec2 p) {
+float fbmP(vec2 p, float period) {
   float v = 0.0;
   float a = 0.55;
   for (int i = 0; i < 3; i++) {
-    v += a * noise(p);
-    p = p * 2.03 + 11.7;
+    v += a * noiseP(p, period);
+    p = p * 2.0 + vec2(11.7, 5.0);
+    period *= 2.0;
     a *= 0.5;
   }
   return v;
@@ -71,40 +76,54 @@ mat2 rot(float a) {
   return mat2(c, -s, s, c);
 }
 
-// Streaky gas texture in polar coordinates (radius in units of R, turns in [0,1)).
-float streaks(float r, float turns) {
-  float n = fbm(vec2(r * 2.2, turns * 22.0));
-  float fine = noise(vec2(r * 4.0, turns * 90.0));
+// Streaky gas texture in polar coordinates: r in units of R, turns = angle / TAU (any real),
+// N = integer number of features per revolution. Seamless around the full circle.
+float streaks(float r, float turns, float N) {
+  float n = fbmP(vec2(r * 2.2, turns * N), N);
+  float fine = noiseP(vec2(r * 4.0, turns * N * 4.0), N * 4.0);
   return n * 0.8 + fine * 0.25;
 }
 
-// Seamless version: blends two samples whose seams sit half a turn apart.
-float gas(float r, float angle) {
-  float t = angle / TAU;
-  float f1 = fract(t);
-  float f2 = fract(t + 0.5);
-  float n1 = streaks(r, f1);
-  float n2 = streaks(r + 3.1, f2);
-  float w = smoothstep(0.75, 1.0, abs(f1 * 2.0 - 1.0));
-  return mix(n1, n2, w);
+// Angular velocity of the gas in turns per unit of flow time (inner rings orbit faster).
+float orbit(float rd) {
+  return 0.5 / TAU * pow(1.45 / rd, 1.3);
 }
 
-// Accretion disk emission at disk-plane position D (units of R).
+// One layer of orbiting gas: the texture is advected by "phase" units of flow time.
+float gasLayer(float rd, float turns, float phase, float seed) {
+  float t = turns + orbit(rd) * phase;
+  // Turbulence rides along with the gas so lanes wobble without drifting off-orbit.
+  float wobble = (noiseP(vec2(rd * 1.4 + seed, t * 6.0), 6.0) - 0.5) * 0.5;
+  return streaks(rd + wobble + seed, t, 22.0);
+}
+
+// Differential rotation winds any texture into ever-tighter spirals, which reads as jitter
+// after a while. Two layers advected over a short cycle and cross-faded keep the shear
+// bounded, so the disk flows smoothly and steadily forever.
+#define FLOW_CYCLE 6.0
 float disk(vec2 D, float time) {
-  // Turbulence breaks up the perfectly concentric lanes.
-  float rd = length(D) + (noise(D * 1.4 + time * 0.03) - 0.5) * 0.5;
+  float rd = length(D);
   float rin = 1.45;
   float rout = 7.5;
   if (rd < rin * 0.75 || rd > rout) return 0.0;
   float edge = smoothstep(rin * 0.85, rin * 1.15, rd) * (1.0 - smoothstep(rout * 0.3, rout, rd));
   float profile = pow(rin / rd, 1.35) * (1.0 + 1.3 * exp(-(rd - rin) * 1.6));
-  float omega = 0.5 * pow(rin / rd, 1.3);
-  float phi = atan(D.y, D.x) + time * omega;
-  float n = gas(rd, phi);
+  float turns = atan(D.y, D.x) / TAU;
+
+  float cyc = time / FLOW_CYCLE;
+  float a = fract(cyc);
+  float b = fract(cyc + 0.5);
+  float wa = 1.0 - abs(2.0 * a - 1.0);
+  float nA = gasLayer(rd, turns, a * FLOW_CYCLE, 0.0);
+  float nB = gasLayer(rd, turns, b * FLOW_CYCLE, 4.7);
+  // Blend, then restore the contrast that averaging two textures washes out.
+  float n = mix(nB, nA, wa);
+  n = 0.5 + (n - 0.5) / sqrt(wa * wa + (1.0 - wa) * (1.0 - wa));
+
   float lanes = 0.45 + 0.95 * n * n;
   // Relativistic beaming: the approaching (left) side glows brighter.
   float doppler = 1.0 - 0.3 * (D.x / rd);
-  return edge * profile * lanes * doppler;
+  return edge * profile * max(lanes, 0.0) * doppler;
 }
 
 // Smooth, noise-free glow of a puffier disk; stands in for bloom.
@@ -135,8 +154,8 @@ float particles(vec2 qs, float incl, float t, float R) {
   if (rc < 1.35 || rc > 6.0) return 0.0;
   float h0 = hash21(vec2(ri, 7.13));
   float cells = floor(TAU * rc / 0.16);
-  float omega = 0.5 * pow(1.45 / rc, 1.3) * (0.85 + 0.3 * h0);
-  float spin = t * omega / TAU + h0;
+  // Same orbital speed as the gas, so dust and lanes move together.
+  float spin = t * orbit(rc) + h0;
   float turns = fract(atan(D.y, D.x) / TAU + spin);
   float cell = floor(turns * cells);
   float h = hash21(vec2(ri, cell));
@@ -239,7 +258,8 @@ void main() {
   float h = (qr - 1.015) / width;
   float ring = h > 0.0 ? exp(-h * 1.7) * smoothstep(0.0, 0.08, h) : 0.0;
   float angle = atan(q.y, q.x);
-  float hn = gas(1.45 + h * 2.2, angle * 0.5 + uFlow * 0.3);
+  // Rigid rotation (no shear), so a single seamless sample is enough.
+  float hn = streaks(1.45 + h * 2.2, angle / TAU + uFlow * 0.3 / TAU, 11.0);
   float haloI = ring * (0.45 + 1.0 * hn) * mix(0.6, 1.2, smoothstep(-0.6, 0.8, s));
   haloI *= 1.0 - 0.25 * (q.x * qInv);
   haloI *= smoothstep(0.0, 1.0, appear * 4.0 - h);
@@ -457,6 +477,7 @@ export function BlackHole({ className, intensity = 0.55, coverRef }: Props) {
     gl.uniform1f(u.intensity, intensity);
 
     let raf = 0;
+    let disposed = false;
     let visible = true;
     let running = false;
     let last = 0;
@@ -466,6 +487,10 @@ export function BlackHole({ className, intensity = 0.55, coverRef }: Props) {
     let firstFrame = true;
 
     const draw = () => {
+      if (disposed) return;
+      // The context is shared if the component remounts (e.g. React strict mode), so always
+      // bind our own program before setting uniforms.
+      gl.useProgram(prog);
       applyHole();
       gl.uniform1f(u.time, elapsed);
       gl.uniform1f(u.flow, flow);
@@ -569,6 +594,7 @@ export function BlackHole({ className, intensity = 0.55, coverRef }: Props) {
 
     // Re-measure once web fonts load and entrance animations settle.
     const remeasure = () => {
+      if (disposed) return;
       measure();
       if (!running) draw();
     };
@@ -593,6 +619,7 @@ export function BlackHole({ className, intensity = 0.55, coverRef }: Props) {
     canvas.addEventListener("webglcontextlost", onLost);
 
     return () => {
+      disposed = true;
       stop();
       timers.forEach(clearTimeout);
       ro.disconnect();

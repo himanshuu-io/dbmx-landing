@@ -42,10 +42,10 @@ export function Navbar() {
         }}
         transition={{ type: "spring", stiffness: 260, damping: 32 }}
         className={cn(
-          "mx-auto flex h-[60px] items-center justify-between px-4 transition-[background-color,border-color,box-shadow] duration-300 md:h-[72px] md:px-8",
+          "relative mx-auto flex h-[60px] items-center justify-between px-4 transition-[background-color,box-shadow] duration-300 md:h-[72px] md:px-8",
           scrolled
-            ? "rounded-2xl border border-white/10 bg-neutral-950/80 shadow-[0_8px_32px_rgb(0_0_0/0.5)] backdrop-blur-md md:h-[60px]"
-            : "border border-transparent bg-transparent",
+            ? "rounded-2xl bg-neutral-900/70 shadow-[0_12px_40px_-12px_rgb(10_10_10/0.8)] backdrop-blur-xl backdrop-saturate-150 md:h-[60px]"
+            : "bg-transparent",
         )}
       >
         <Logo />
@@ -55,7 +55,7 @@ export function Navbar() {
             <li key={l.label}>
               <Link
                 href={l.href}
-                className="rounded-md px-3 py-2 text-sm text-neutral-300 transition hover:bg-white/5 hover:text-white"
+                className="rounded-md px-3 py-2 text-sm text-neutral-300 transition hover:text-neutral-50"
               >
                 {l.label}
               </Link>
@@ -64,7 +64,7 @@ export function Navbar() {
         </ul>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Link href="#" className="text-sm text-neutral-300 transition hover:text-white">
+          <Link href="#" className="text-sm text-neutral-300 transition hover:text-neutral-50">
             Log in
           </Link>
           <Button href="#pricing" className="h-9 px-4">
@@ -77,7 +77,7 @@ export function Navbar() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex size-9 items-center justify-center rounded-lg border border-white/10 text-white md:hidden"
+          className="flex size-9 items-center justify-center rounded-lg bg-neutral-800 text-neutral-50 md:hidden"
         >
           {open ? <X className="size-4" /> : <Menu className="size-4" />}
         </button>
@@ -90,14 +90,14 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-[60px] bottom-0 z-40 flex flex-col gap-2 border-t border-divide bg-black px-4 pt-6 md:hidden"
+            className="fixed inset-x-0 top-[60px] bottom-0 z-40 flex flex-col gap-2 bg-neutral-950 px-4 pt-6 md:hidden"
           >
             {links.map((l) => (
               <Link
                 key={l.label}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-2 py-3 text-2xl font-medium tracking-tight text-white hover:bg-white/5"
+                className="rounded-lg px-2 py-3 text-2xl font-medium tracking-tight text-neutral-50 hover:bg-neutral-900"
               >
                 {l.label}
               </Link>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Brain, Cable, Code2, FileText, KeyRound, Phone, RefreshCw, Sparkles, Wand2 } from "lucide-react";
-import { SectionHeading } from "@/components/ui";
+import { BrandAsset, SectionHeading } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 export function Features() {
@@ -54,8 +54,8 @@ export function Features() {
             key={f.title}
             className={cn("p-6 md:p-8", i < 2 && "border-b border-divide md:border-r md:border-b-0")}
           >
-            <p className="flex items-center gap-2 font-medium text-white">
-              <f.icon className="size-4" />
+            <p className="flex items-center gap-2 font-medium text-neutral-50">
+              <f.icon className="size-4 text-neutral-400" />
               {f.title}
             </p>
             <p className="mt-2 text-sm text-neutral-400">{f.body}</p>
@@ -81,8 +81,8 @@ function Card({
 }) {
   return (
     <div className={cn("flex flex-col overflow-hidden p-6 md:p-8", className)}>
-      <p className="flex items-center gap-2 font-medium text-white">
-        <Icon className="size-4" />
+      <p className="flex items-center gap-2 font-medium text-neutral-50">
+        <Icon className="size-4 text-neutral-400" />
         {title}
       </p>
       <p className="mt-2 max-w-md text-sm text-neutral-400">{body}</p>
@@ -92,10 +92,10 @@ function Card({
 }
 
 const models = [
-  { name: "Claude Sonnet 5", state: "Routed", tone: "text-emerald-400 bg-emerald-400/10" },
-  { name: "Claude Haiku 4.5", state: "Fallback", tone: "text-sky-400 bg-sky-400/10" },
-  { name: "Claude Opus 5.5", state: "On demand", tone: "text-amber-400 bg-amber-400/10" },
-  { name: "Self-hosted 70B", state: "Offline", tone: "text-neutral-400 bg-white/5" },
+  { name: "Claude Sonnet 5", state: "Routed", tone: "text-neutral-200 bg-neutral-800" },
+  { name: "Claude Haiku 4.5", state: "Fallback", tone: "text-neutral-300 bg-neutral-800" },
+  { name: "Claude Opus 5.5", state: "On demand", tone: "text-neutral-300 bg-neutral-800" },
+  { name: "Self-hosted 70B", state: "Offline", tone: "text-neutral-500 bg-neutral-900" },
 ];
 
 function ModelRouter() {
@@ -106,28 +106,28 @@ function ModelRouter() {
   }, []);
 
   return (
-    <div className="mask-fade-b w-full max-w-sm rounded-2xl border border-white/10 bg-neutral-900 p-4">
+    <div className="mask-fade-b w-full max-w-sm rounded-2xl bg-neutral-900 p-4">
       <div className="flex items-center gap-1.5">
-        <span className="size-2.5 rounded-full bg-red-400" />
-        <span className="size-2.5 rounded-full bg-amber-400" />
-        <span className="size-2.5 rounded-full bg-emerald-400" />
+        <span className="size-2.5 rounded-full bg-neutral-700" />
+        <span className="size-2.5 rounded-full bg-neutral-700" />
+        <span className="size-2.5 rounded-full bg-neutral-700" />
       </div>
       <div className="mt-4 flex items-center justify-between text-xs text-neutral-400">
         <span>Routing policy</span>
-        <span className="rounded-full border border-white/10 px-2 py-0.5 font-mono">cost ≤ $0.02/run</span>
+        <span className="rounded-full bg-neutral-800 px-2 py-0.5 font-mono text-neutral-300">cost ≤ $0.02/run</span>
       </div>
       <ul className="mt-3 space-y-2">
         {models.map((m, i) => (
           <motion.li
             key={m.name}
             animate={{
-              borderColor: i === active ? "rgb(232 128 108 / 0.5)" : "rgb(255 255 255 / 0.08)",
-              backgroundColor: i === active ? "rgb(232 128 108 / 0.06)" : "rgb(0 0 0 / 0.3)",
+              // neutral-800 when selected, neutral-950 otherwise
+              backgroundColor: i === active ? "rgb(38 38 38)" : "rgb(10 10 10)",
             }}
-            className="flex items-center justify-between rounded-lg border px-3 py-2.5 text-sm"
+            className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm text-neutral-200"
           >
             <span className="flex items-center gap-2">
-              <Sparkles className={cn("size-3.5", i === active ? "text-brand" : "text-neutral-600")} />
+              <Sparkles className={cn("size-3.5 transition-colors", i === active ? "text-coral" : "text-neutral-600")} />
               {m.name}
             </span>
             <span className={cn("rounded-md px-1.5 py-0.5 text-[11px]", m.tone)}>{m.state}</span>
@@ -165,22 +165,22 @@ function PromptBuilder() {
 
   return (
     <div className="w-full max-w-sm space-y-3">
-      <div className="bg-dots flex h-32 items-center justify-center gap-3 rounded-2xl border border-white/10 p-4">
+      <div className="bg-dots flex h-32 items-center justify-center gap-3 rounded-2xl bg-neutral-900 p-4">
         {["Trigger", "Agent", "Action"].map((n, i) => (
           <motion.div
             key={n}
             animate={{ opacity: done ? 1 : 0.25, y: done ? 0 : 6 }}
             transition={{ delay: done ? i * 0.12 : 0 }}
-            className="rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-xs"
+            className="rounded-lg bg-neutral-800 px-3 py-2 text-xs text-neutral-200"
           >
             {n}
           </motion.div>
         ))}
       </div>
-      <div className="min-h-[88px] rounded-xl border border-white/10 bg-neutral-900 p-3 text-sm text-neutral-200">
+      <div className="min-h-[88px] rounded-xl bg-neutral-900 p-3 text-sm text-neutral-200">
         <FileText className="mb-2 size-3.5 text-neutral-500" />
         {text}
-        <span className="animate-blink ml-px inline-block h-4 w-px translate-y-0.5 bg-white" />
+        <span className="animate-blink ml-px inline-block h-4 w-px translate-y-0.5 bg-coral" />
       </div>
     </div>
   );
@@ -207,19 +207,15 @@ function IntegrationGraph() {
           ))}
         </ul>
 
-        <div className="flex size-16 items-center justify-center rounded-2xl border border-brand/40 bg-neutral-900 shadow-[0_0_40px_rgb(232_128_108/0.25)]">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <rect x="2" y="2" width="9" height="9" rx="2.5" fill="white" />
-            <rect x="13" y="13" width="9" height="9" rx="2.5" fill="white" />
-            <rect x="13" y="2" width="9" height="9" rx="4.5" fill="var(--color-brand)" />
-          </svg>
+        <div className="flex size-16 items-center justify-center rounded-2xl bg-neutral-900">
+          <BrandAsset variant="mark-coral" height={30} />
         </div>
 
         <ul className="space-y-5">
           {right.map((r, i) => (
             <li key={r} className="flex items-center gap-2 text-xs text-neutral-300 sm:text-sm">
               <Beam delay={0.3 + i * 0.6} reverse />
-              <span className="flex h-8 items-center rounded-lg border border-white/10 bg-neutral-900 px-2.5">{r}</span>
+              <span className="flex h-8 items-center rounded-lg bg-neutral-900 px-2.5">{r}</span>
             </li>
           ))}
         </ul>
@@ -230,9 +226,9 @@ function IntegrationGraph() {
 
 function Beam({ delay, reverse }: { delay: number; reverse?: boolean }) {
   return (
-    <span className="relative hidden h-px w-12 overflow-hidden bg-white/10 sm:block md:w-24">
+    <span className="relative hidden h-px w-12 overflow-hidden bg-neutral-800 sm:block md:w-24">
       <motion.span
-        className="absolute inset-y-0 w-8 bg-gradient-to-r from-transparent via-brand to-transparent"
+        className="absolute inset-y-0 w-8 bg-gradient-to-r from-transparent via-coral to-transparent"
         initial={{ x: reverse ? 100 : -40 }}
         animate={{ x: reverse ? -40 : 100 }}
         transition={{ duration: 1.8, delay, repeat: Infinity, repeatDelay: 0.6, ease: "easeInOut" }}

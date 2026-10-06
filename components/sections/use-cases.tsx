@@ -29,11 +29,11 @@ export function UseCases() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.4, delay: (i % 3) * 0.08 }}
-            className="group rounded-xl border border-white/5 bg-neutral-900 p-5 transition-colors hover:border-white/15 hover:bg-neutral-800/80"
+            className="group rounded-xl bg-neutral-900 p-6 transition-colors hover:bg-neutral-800/70"
           >
-            <c.icon className="size-5 text-brand transition-transform group-hover:-translate-y-0.5" />
-            <h3 className="mt-4 font-medium text-white">{c.title}</h3>
-            <p className="mt-2 text-sm text-neutral-500">{c.body}</p>
+            <c.icon className="size-5 text-neutral-400 transition-colors group-hover:text-coral" />
+            <h3 className="mt-5 font-medium text-neutral-50">{c.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-neutral-400">{c.body}</p>
           </motion.div>
         ))}
       </div>

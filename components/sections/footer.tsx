@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { ArrowRight, Check } from "lucide-react";
@@ -29,11 +30,11 @@ export function Footer() {
     <footer className="mx-auto max-w-7xl px-6 pt-16 pb-10 md:px-8">
       <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
         <div>
-          <Logo />
-          <p className="mt-4 max-w-xs text-sm text-neutral-400">
+          <Logo variant="lockup-cream" />
+          <p className="mt-5 max-w-xs text-sm text-neutral-400">
             The workspace for building, replaying and running AI agent pipelines.
           </p>
-          <Button href="#pricing" className="mt-6">
+          <Button href="#pricing" variant="secondary" className="mt-6">
             Start for free
           </Button>
         </div>
@@ -45,7 +46,7 @@ export function Footer() {
               <ul className="mt-4 space-y-3">
                 {c.links.map((l) => (
                   <li key={l}>
-                    <Link href="#" className="text-sm text-neutral-300 transition hover:text-white">
+                    <Link href="#" className="text-sm text-neutral-300 transition hover:text-neutral-50">
                       {l}
                     </Link>
                   </li>
@@ -61,7 +62,7 @@ export function Footer() {
               <label htmlFor="newsletter" className="sr-only">
                 Email address
               </label>
-              <div className="flex items-center rounded-lg border border-white/10 bg-neutral-900 focus-within:border-white/30">
+              <div className="flex items-center rounded-lg bg-neutral-900 outline-coral focus-within:outline-1">
                 <input
                   id="newsletter"
                   type="email"
@@ -71,19 +72,19 @@ export function Footer() {
                     setStatus("idle");
                   }}
                   placeholder="you@company.com"
-                  className="h-10 min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-neutral-600"
+                  className="h-10 min-w-0 flex-1 bg-transparent px-3 text-sm text-neutral-50 outline-none placeholder:text-neutral-600"
                 />
                 <button
                   type="submit"
                   aria-label="Subscribe"
-                  className="mr-1 flex size-8 items-center justify-center rounded-md bg-white text-black transition hover:bg-neutral-200"
+                  className="mr-1 flex size-8 items-center justify-center rounded-md bg-neutral-800 text-neutral-50 transition hover:bg-neutral-700"
                 >
                   {status === "done" ? <Check className="size-4" /> : <ArrowRight className="size-4" />}
                 </button>
               </div>
               <p aria-live="polite" className="mt-2 h-4 text-xs">
-                {status === "done" && <span className="text-emerald-400">Thanks — you&apos;re on the list.</span>}
-                {status === "error" && <span className="text-red-400">Enter a valid email address.</span>}
+                {status === "done" && <span className="text-neutral-300">Thanks — you&apos;re on the list.</span>}
+                {status === "error" && <span className="text-neutral-300">Enter a valid email address.</span>}
               </p>
             </form>
           </div>
@@ -93,6 +94,19 @@ export function Footer() {
       <div className="mt-16 flex flex-col justify-between gap-4 border-t border-divide pt-6 text-xs text-neutral-500 sm:flex-row">
         <p>© {new Date().getFullYear()} DBMX, Inc. All rights reserved.</p>
         <p>Made for teams who ship.</p>
+      </div>
+
+      {/* Oversized cream wordmark as a quiet closing watermark. The asset's built-in 30/504
+          padding is cancelled with negative margins so the letters span the full width. */}
+      <div aria-hidden className="mt-14 overflow-hidden opacity-[0.14] [mask-image:linear-gradient(to_bottom,#000_30%,transparent_95%)]">
+        <Image
+          src="/brand/wordmark-cream.svg"
+          alt=""
+          width={504.186}
+          height={160}
+          className="pointer-events-none max-w-none select-none"
+          style={{ width: "calc(100% * 504.186 / 444.186)", height: "auto", margin: "-6.754% -6.754% -3%" }}
+        />
       </div>
     </footer>
   );
