@@ -1,3 +1,4 @@
+import { AstronautCursor } from "@/components/astronaut-cursor";
 import { Navbar } from "@/components/navbar";
 import { Rule } from "@/components/ui";
 import { Hero } from "@/components/sections/hero";
@@ -6,8 +7,6 @@ import { HowItWorks } from "@/components/sections/how-it-works";
 import { Features } from "@/components/sections/features";
 import { UseCases } from "@/components/sections/use-cases";
 import { Benefits } from "@/components/sections/benefits";
-import { Testimonials } from "@/components/sections/testimonials";
-import { Pricing } from "@/components/sections/pricing";
 import { Security } from "@/components/sections/security";
 import { Faq } from "@/components/sections/faq";
 import { Cta } from "@/components/sections/cta";
@@ -16,6 +15,7 @@ import { Footer } from "@/components/sections/footer";
 export default function Home() {
   return (
     <div className="overflow-x-clip">
+      <AstronautCursor />
       <Navbar />
       <main>
         <Hero />
@@ -29,10 +29,6 @@ export default function Home() {
         <UseCases />
         <Rule />
         <Benefits />
-        <Rule />
-        <Testimonials />
-        <Rule />
-        <Pricing />
         <Rule />
         <Security />
         <Rule />

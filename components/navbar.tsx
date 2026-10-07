@@ -1,16 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
-import { Button, Logo } from "@/components/ui";
+import { DownloadButton, Logo } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { label: "Product", href: "#how-it-works" },
+  { label: "How it works", href: "#how-it-works" },
   { label: "Features", href: "#features" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Privacy", href: "#privacy" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -53,23 +52,18 @@ export function Navbar() {
         <ul className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
             <li key={l.label}>
-              <Link
+              <a
                 href={l.href}
                 className="rounded-md px-3 py-2 text-sm text-neutral-300 transition hover:text-neutral-50"
               >
                 {l.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Link href="#" className="text-sm text-neutral-300 transition hover:text-neutral-50">
-            Log in
-          </Link>
-          <Button href="#pricing" className="h-9 px-4">
-            Get started
-          </Button>
+          <DownloadButton className="h-9 px-4" />
         </div>
 
         <button
@@ -93,22 +87,17 @@ export function Navbar() {
             className="fixed inset-x-0 top-[60px] bottom-0 z-40 flex flex-col gap-2 bg-neutral-950 px-4 pt-6 md:hidden"
           >
             {links.map((l) => (
-              <Link
+              <a
                 key={l.label}
                 href={l.href}
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-2 py-3 text-2xl font-medium tracking-tight text-neutral-50 hover:bg-neutral-900"
               >
                 {l.label}
-              </Link>
+              </a>
             ))}
             <div className="mt-6 flex flex-col gap-3">
-              <Button href="#pricing" onClick={() => setOpen(false)} className="h-11">
-                Get started
-              </Button>
-              <Button href="#" variant="secondary" onClick={() => setOpen(false)} className="h-11">
-                Log in
-              </Button>
+              <DownloadButton onClick={() => setOpen(false)} className="h-11" />
             </div>
           </motion.div>
         )}

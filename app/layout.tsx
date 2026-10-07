@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DBMX — Orchestrate, test and ship AI agent pipelines",
+  title: "DBMX — The AI-native database client",
   description:
-    "DBMX gives engineering teams a visual canvas to wire up AI agents, replay them in a sandbox and ship them to production with confidence.",
+    "DBMX is a fast desktop database client with a schema-aware editor, an editable data grid and Stardust, an AI assistant that knows your schema.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

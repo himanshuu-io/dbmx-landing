@@ -1,15 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { ArrowRight, Check } from "lucide-react";
-import { Button, Logo } from "@/components/ui";
+import { DownloadButton, Logo } from "@/components/ui";
 
 const columns = [
-  { title: "Product", links: ["Canvas", "Replays", "Connectors", "Model routing", "API"] },
-  { title: "Company", links: ["About", "Customers", "Careers", "Blog", "Changelog", "Contact"] },
-  { title: "Legal", links: ["Privacy", "Terms", "Cookies", "DPA"] },
+  {
+    title: "Product",
+    links: [
+      { label: "How it works", href: "#how-it-works" },
+      { label: "Features", href: "#features" },
+      { label: "Privacy", href: "#privacy" },
+      { label: "FAQ", href: "#faq" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "Download", href: "#download" },
+      { label: "Contact", href: "mailto:hello@dbmx.dev" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Privacy policy", href: "#" },
+      { label: "Terms", href: "#" },
+    ],
+  },
 ];
 
 export function Footer() {
@@ -32,11 +51,9 @@ export function Footer() {
         <div>
           <Logo variant="lockup-cream" />
           <p className="mt-5 max-w-xs text-sm text-neutral-400">
-            The workspace for building, replaying and running AI agent pipelines.
+            The AI-native desktop database client.
           </p>
-          <Button href="#pricing" variant="secondary" className="mt-6">
-            Start for free
-          </Button>
+          <DownloadButton variant="secondary" className="mt-6" />
         </div>
 
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
@@ -45,10 +62,10 @@ export function Footer() {
               <p className="text-sm text-neutral-500">{c.title}</p>
               <ul className="mt-4 space-y-3">
                 {c.links.map((l) => (
-                  <li key={l}>
-                    <Link href="#" className="text-sm text-neutral-300 transition hover:text-neutral-50">
-                      {l}
-                    </Link>
+                  <li key={l.label}>
+                    <a href={l.href} className="text-sm text-neutral-300 transition hover:text-neutral-50">
+                      {l.label}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -92,8 +109,8 @@ export function Footer() {
       </div>
 
       <div className="mt-16 flex flex-col justify-between gap-4 border-t border-divide pt-6 text-xs text-neutral-500 sm:flex-row">
-        <p>© {new Date().getFullYear()} DBMX, Inc. All rights reserved.</p>
-        <p>Made for teams who ship.</p>
+        <p>© {new Date().getFullYear()} DBMX. All rights reserved.</p>
+        <p>Made for people who live in their databases.</p>
       </div>
 
       {/* Oversized cream wordmark as a quiet closing watermark. The asset's built-in 30/504

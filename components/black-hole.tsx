@@ -297,6 +297,17 @@ type Props = {
 // Breathing room (CSS px) between the covered text and the edge of the shadow.
 const COVER_PADDING = 28;
 
+/**
+ * Live hole placement for other effects (the astronaut cursor). `x`, `y` and `r` are CSS px
+ * relative to `canvas`; `r` is the event horizon, the edge of the shadow.
+ */
+export const blackHoleGeometry: { canvas: HTMLCanvasElement | null; x: number; y: number; r: number } = {
+  canvas: null,
+  x: 0,
+  y: 0,
+  r: 0,
+};
+
 export function BlackHole({ className, intensity = 0.55, coverRef }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [ready, setReady] = useState(false);
@@ -449,6 +460,10 @@ export function BlackHole({ className, intensity = 0.55, coverRef }: Props) {
     const applyHole = () => {
       gl.uniform2f(u.center, hole.x, hole.y);
       gl.uniform1f(u.radius, hole.r);
+      blackHoleGeometry.canvas = canvas;
+      blackHoleGeometry.x = cssW / 2 + hole.x * cssH;
+      blackHoleGeometry.y = cssH / 2 - hole.y * cssH;
+      blackHoleGeometry.r = hole.r * cssH;
     };
 
     const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -619,6 +634,7 @@ export function BlackHole({ className, intensity = 0.55, coverRef }: Props) {
     canvas.addEventListener("webglcontextlost", onLost);
 
     return () => {
+      if (blackHoleGeometry.canvas === canvas) blackHoleGeometry.canvas = null;
       disposed = true;
       stop();
       timers.forEach(clearTimeout);

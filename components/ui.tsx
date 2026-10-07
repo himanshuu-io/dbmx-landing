@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ComponentProps, CSSProperties, ReactNode } from "react";
+import { Download } from "lucide-react";
+import { MAC_DOWNLOAD_URL } from "@/lib/links";
 import { cn } from "@/lib/utils";
 
 /**
@@ -83,26 +85,43 @@ export function Logo({
   );
 }
 
-type ButtonProps = ComponentProps<typeof Link> & {
-  variant?: "primary" | "secondary" | "quiet";
+type ButtonVariant = "primary" | "secondary" | "quiet";
+
+type ButtonProps = ComponentProps<"a"> & {
+  variant?: ButtonVariant;
 };
 
+function buttonClass(variant: ButtonVariant, className?: string) {
+  return cn(
+    "inline-flex h-10 items-center justify-center rounded-lg px-5 text-sm font-medium transition duration-200 active:scale-[0.98]",
+    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral",
+    // Primary: the one coral action in view.
+    variant === "primary" && "bg-coral text-neutral-50 hover:bg-coral/85",
+    // Secondary: outlined neutral, per the CTA rules.
+    variant === "secondary" && "border border-neutral-700 text-neutral-50 hover:bg-neutral-800",
+    // Quiet: a filled neutral control for places where an outline would add noise.
+    variant === "quiet" && "bg-neutral-800 text-neutral-50 hover:bg-neutral-700",
+    className,
+  );
+}
+
+// A plain <a>, not next/link: every button here is an in-page anchor or a mailto link, and
+// next/link ignores a click on the URL you are already on (a second "#features" did nothing).
 export function Button({ variant = "primary", className, ...props }: ButtonProps) {
+  return <a className={buttonClass(variant, className)} {...props} />;
+}
+
+/** The site's main action. A plain anchor, since the target is a file rather than a page. */
+export function DownloadButton({
+  variant = "primary",
+  className,
+  ...props
+}: Omit<ComponentProps<"a">, "href" | "children"> & { variant?: ButtonVariant }) {
   return (
-    <Link
-      className={cn(
-        "inline-flex h-10 items-center justify-center rounded-lg px-5 text-sm font-medium transition duration-200 active:scale-[0.98]",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral",
-        // Primary: the one coral action in view.
-        variant === "primary" && "bg-coral text-neutral-50 hover:bg-coral/85",
-        // Secondary: outlined neutral, per the CTA rules.
-        variant === "secondary" && "border border-neutral-700 text-neutral-50 hover:bg-neutral-800",
-        // Quiet: a filled neutral control for places where an outline would add noise.
-        variant === "quiet" && "bg-neutral-800 text-neutral-50 hover:bg-neutral-700",
-        className,
-      )}
-      {...props}
-    />
+    <a href={MAC_DOWNLOAD_URL} download className={buttonClass(variant, cn("gap-2", className))} {...props}>
+      <Download className="size-4" />
+      Download for macOS
+    </a>
   );
 }
 

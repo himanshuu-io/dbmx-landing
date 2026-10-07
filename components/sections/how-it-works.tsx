@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { GitBranch, MousePointerClick, Plug, Rocket } from "lucide-react";
+import { Download, KeyRound, Plug, Sparkles } from "lucide-react";
 import { SectionHeading } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
@@ -10,19 +10,19 @@ const DURATION = 6000;
 
 const steps = [
   {
-    icon: MousePointerClick,
-    title: "Sketch the pipeline",
-    body: "Drop agents onto the canvas, draw the hand-offs between them and set guardrails per step.",
-  },
-  {
     icon: Plug,
-    title: "Plug in your stack",
-    body: "Give each agent the tools it needs — repos, inboxes, databases — with scoped credentials.",
+    title: "Connect in seconds",
+    body: "Point DBMX at your database, over SSL or through an SSH tunnel. Tag it by environment so prod never looks like dev.",
   },
   {
-    icon: Rocket,
-    title: "Replay, then ship",
-    body: "Rehearse runs against recorded traffic, compare outcomes, and promote to production in one click.",
+    icon: Sparkles,
+    title: "Write it, or ask for it",
+    body: "Type SQL with schema-aware autocomplete, or describe what you need and let Stardust draft the query from your real tables.",
+  },
+  {
+    icon: Download,
+    title: "Edit, then take it with you",
+    body: "Fix rows straight in the grid, follow foreign keys to related records and export results to CSV or JSON.",
   },
 ];
 
@@ -41,8 +41,8 @@ export function HowItWorks() {
       <SectionHeading
         className="py-16 md:py-20"
         eyebrow="How it works"
-        title="From whiteboard to production"
-        description="Three steps between an idea for an agent and a pipeline your team can trust."
+        title="From connection string to answer"
+        description="Three steps between a question about your data and a result you can act on."
       />
 
       <div className="grid border-t border-divide lg:grid-cols-2">
@@ -101,71 +101,83 @@ export function HowItWorks() {
   );
 }
 
-function Node({ title, subtitle, className }: { title: string; subtitle: string; className?: string }) {
+function Field({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
-    <div className={cn("w-40 rounded-xl bg-neutral-900 p-3 shadow-[0_16px_40px_-16px_rgb(10_10_10/0.9)]", className)}>
-      <p className="text-xs text-neutral-500">{subtitle}</p>
-      <p className="mt-1 text-sm font-medium text-neutral-50">{title}</p>
+    <div>
+      <p className="text-[11px] text-neutral-500">{label}</p>
+      <p className={cn("mt-1 rounded-lg bg-neutral-950 px-3 py-2 text-xs text-neutral-200", mono && "font-mono")}>{value}</p>
     </div>
   );
 }
 
 function CanvasVisual() {
   return (
-    <div className="relative h-72 w-full max-w-md">
-      <svg className="absolute inset-0 size-full" viewBox="0 0 400 288" fill="none" preserveAspectRatio="none">
-        <path d="M100 60 C 200 60, 200 144, 300 144" stroke="var(--color-neutral-700)" strokeDasharray="4 4" />
-        <path d="M100 228 C 200 228, 200 144, 300 144" stroke="var(--color-neutral-700)" strokeDasharray="4 4" />
-        <motion.circle
-          r="3"
-          fill="var(--color-coral)"
-          animate={{ offsetDistance: ["0%", "100%"] }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-          style={{ offsetPath: "path('M100 60 C 200 60, 200 144, 300 144')" }}
-        />
-      </svg>
-      <Node className="absolute top-2 left-0" subtitle="Trigger" title="New support ticket" />
-      <Node className="absolute bottom-2 left-0" subtitle="Agent · Haiku 4.5" title="Classify intent" />
-      <Node className="absolute top-1/2 right-0 -translate-y-1/2 bg-neutral-800" subtitle="Agent · Sonnet 5" title="Draft reply" />
+    <div className="w-full max-w-sm rounded-2xl bg-neutral-900 p-4 shadow-[0_24px_60px_-24px_rgb(10_10_10/0.9)]">
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium text-neutral-50">New connection</p>
+        <span className="rounded-md bg-neutral-800 px-2 py-0.5 text-[11px] text-neutral-300">PostgreSQL</span>
+      </div>
+      <div className="mt-4 grid grid-cols-[2fr_1fr] gap-2">
+        <Field label="Host" value="db.internal.acme.io" mono />
+        <Field label="Port" value="5432" mono />
+      </div>
+      <div className="mt-2 grid grid-cols-2 gap-2">
+        <Field label="SSL mode" value="verify-full" />
+        <Field label="Environment" value="production" />
+      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="mt-3 flex items-center gap-2 rounded-lg bg-neutral-950 px-3 py-2 text-xs text-neutral-300"
+      >
+        <KeyRound className="size-3.5 text-neutral-500" />
+        SSH tunnel via <span className="font-mono text-neutral-200">bastion:22</span>
+        <span className="ml-auto flex items-center gap-1.5 text-neutral-50">
+          <span className="size-1.5 rounded-full bg-coral" /> Connected
+        </span>
+      </motion.div>
     </div>
   );
 }
 
 function ToolsVisual() {
-  const tools = ["GitHub", "Postgres", "Gmail", "Linear", "S3", "Stripe"];
   return (
-    <div className="w-full max-w-sm rounded-2xl bg-neutral-900 p-4 shadow-[0_24px_60px_-24px_rgb(10_10_10/0.9)]">
-      <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-neutral-50">Tool access · draft-reply</p>
-        <span className="rounded-md bg-neutral-800 px-2 py-0.5 text-[11px] text-neutral-300">Scoped</span>
+    <div className="w-full max-w-sm space-y-2">
+      <div className="ml-auto w-fit max-w-[85%] rounded-xl bg-neutral-800 px-3 py-2 text-xs text-neutral-200">
+        Top 5 customers by revenue this quarter
       </div>
-      <ul className="mt-4 grid grid-cols-2 gap-2">
-        {tools.map((t, i) => (
-          <motion.li
-            key={t}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.05 * i }}
-            className="flex items-center justify-between rounded-lg bg-neutral-950 px-3 py-2 text-xs text-neutral-300"
-          >
-            {t}
-            <span className={cn("size-1.5 rounded-full", i < 4 ? "bg-neutral-50" : "bg-neutral-700")} />
-          </motion.li>
-        ))}
-      </ul>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+        className="rounded-xl bg-neutral-900 p-3 shadow-[0_24px_60px_-24px_rgb(10_10_10/0.9)]"
+      >
+        <p className="flex items-center gap-1.5 text-[11px] text-neutral-500">
+          <Sparkles className="size-3 text-coral" /> Stardust
+        </p>
+        <pre className="mt-2 overflow-x-auto rounded-lg bg-neutral-950 p-3 font-mono text-[11px] leading-5 text-neutral-300">
+          <span className="text-coral">select</span> c.name, <span className="text-cream">sum</span>(i.total) <span className="text-coral">as</span> revenue{"\n"}
+          <span className="text-coral">from</span> invoices i <span className="text-coral">join</span> customers c{"\n"}
+          {"  "}<span className="text-coral">on</span> c.id = i.customer_id{"\n"}
+          <span className="text-coral">where</span> i.paid_at {">"}= <span className="text-cream">date_trunc</span>(&apos;quarter&apos;, <span className="text-cream">now</span>()){"\n"}
+          <span className="text-coral">group by</span> c.name <span className="text-coral">order by</span> revenue <span className="text-coral">desc</span>{"\n"}
+          <span className="text-coral">limit</span> 5;
+        </pre>
+      </motion.div>
     </div>
   );
 }
 
 function ShipVisual() {
-  const envs = [
-    { name: "replay/ticket-set-42", status: "Passed 118/120", tone: "text-neutral-400" },
-    { name: "staging", status: "Healthy", tone: "text-neutral-400" },
-    { name: "production", status: "Promoting…", tone: "text-neutral-50" },
+  const exports = [
+    { name: "late_orders.csv", status: "1,284 rows", tone: "text-neutral-400" },
+    { name: "orders (filtered).json", status: "Whole table", tone: "text-neutral-400" },
+    { name: "orders · id 48227", status: "Saved · 1 cell", tone: "text-neutral-50" },
   ];
   return (
     <div className="w-full max-w-sm space-y-2">
-      {envs.map((e, i) => (
+      {exports.map((e, i) => (
         <motion.div
           key={e.name}
           initial={{ opacity: 0, x: -12 }}
@@ -174,7 +186,7 @@ function ShipVisual() {
           className="flex items-center justify-between rounded-xl bg-neutral-900 px-4 py-3"
         >
           <span className="flex items-center gap-2 font-mono text-xs text-neutral-200">
-            <GitBranch className="size-3.5 text-neutral-500" />
+            <Download className="size-3.5 text-neutral-500" />
             {e.name}
           </span>
           <span className={cn("text-xs", e.tone)}>{e.status}</span>

@@ -1,23 +1,22 @@
 "use client";
 
 import { motion } from "motion/react";
-import { BarChart3, Bell, Recycle, Repeat, Rocket, ShieldAlert, Zap } from "lucide-react";
+import { Feather, KeyRound, Keyboard, Layers, PanelsLeftBottom, ShieldCheck } from "lucide-react";
 import { BrandAsset, SectionHeading } from "@/components/ui";
-import { cn } from "@/lib/utils";
 
 const left = [
-  { icon: Rocket, title: "Ship in days", body: "Go from sketch to a monitored pipeline without a platform rewrite." },
-  { icon: Repeat, title: "Tight feedback loops", body: "Replay yesterday's traffic against today's prompt before you merge." },
-  { icon: BarChart3, title: "Spend with intent", body: "Per-step cost tracking shows exactly where tokens go." },
+  { icon: Feather, title: "Native and light", body: "A Go app on your system's own web view. No bundled browser, no waiting for it to wake up." },
+  { icon: Layers, title: "Tabs that remember", body: "Queries, filters, history and your AI chat all survive a restart." },
+  { icon: PanelsLeftBottom, title: "All connections in one place", body: "Every server and database in one sidebar. No more juggling a window per connection." },
 ];
 
 const right = [
-  { icon: Recycle, title: "Reusable building blocks", body: "Publish a tuned agent once and share it across every team." },
-  { icon: ShieldAlert, title: "Fail safely", body: "Budgets, retries and human checkpoints stop runaway runs." },
-  { icon: Zap, title: "Less toil", body: "Hand off the repetitive glue work and keep humans on judgement calls." },
+  { icon: ShieldCheck, title: "Your connections stay local", body: "Hosts, users and passwords live on your machine and are never sent to our servers." },
+  { icon: KeyRound, title: "Your keys or ours", body: "Use Stardust's built-in models, or bring your own provider key." },
+  { icon: Keyboard, title: "Keyboard first", body: "Run, explain, format and save without leaving the keys. ⌘P finds everything else." },
 ];
 
-function Tile({ icon: Icon, title, body, i }: { icon: typeof Rocket; title: string; body: string; i: number }) {
+function Tile({ icon: Icon, title, body, i }: { icon: typeof Feather; title: string; body: string; i: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -38,8 +37,8 @@ export function Benefits() {
     <div className="relative mx-auto max-w-7xl overflow-hidden border-x border-divide px-4 py-16 md:px-8 md:py-20">
       <SectionHeading
         eyebrow="Why DBMX"
-        title="Your team, with leverage"
-        description="Agents take the busywork. Engineers keep the context, the controls and the credit."
+        title="Made to stay out of your way"
+        description="Quick to open, quiet to use and careful with your data."
       />
 
       <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
@@ -63,29 +62,24 @@ export function Benefits() {
   );
 }
 
-function CenterVisual() {
-  const metrics = [
-    { label: "Runs today", value: "18,204", pct: 82, key: false },
-    { label: "Pass rate", value: "99.2%", pct: 99, key: true },
-    { label: "Human hand-offs", value: "37", pct: 12, key: false },
-  ];
+const shortcuts = [
+  { keys: ["⌥", "↵"], label: "Run query" },
+  { keys: ["⌘", "E"], label: "Explain" },
+  { keys: ["⌘", "⇧", "F"], label: "Format" },
+  { keys: ["⌘", "S"], label: "Save query or edits" },
+  { keys: ["⌘", "H"], label: "History" },
+  { keys: ["⌘", "P"], label: "Command palette" },
+];
 
+function CenterVisual() {
   return (
     <div className="relative flex h-full min-h-[420px] flex-col items-center overflow-hidden rounded-xl bg-neutral-900 px-5 pt-10">
-      {/* Signature gradient as quiet atmosphere behind the hub. */}
+      {/* Signature gradient as quiet atmosphere behind the mark. */}
       <div aria-hidden className="bg-brand-gradient pointer-events-none absolute -top-24 left-1/2 size-72 -translate-x-1/2 rounded-full opacity-[0.14] blur-3xl" />
-      <div className="relative flex items-center gap-3">
-        <span className="flex size-10 items-center justify-center rounded-xl bg-neutral-800 text-xs text-neutral-300">PG</span>
-        <span className="h-px w-8 bg-neutral-700" />
-        <span className="flex size-12 items-center justify-center rounded-xl bg-neutral-800">
-          <BrandAsset variant="mark-cream" height={24} />
-        </span>
-        <span className="h-px w-8 bg-neutral-700" />
-        <span className="flex size-10 items-center justify-center rounded-xl bg-neutral-800 text-xs text-neutral-300">GH</span>
-      </div>
+      <span className="relative flex size-12 items-center justify-center rounded-xl bg-neutral-800">
+        <BrandAsset variant="mark-cream" height={24} />
+      </span>
       <span className="relative h-8 w-px bg-neutral-700" />
-      <span className="relative rounded-md bg-neutral-800 px-2 py-0.5 text-[11px] text-neutral-300">Synced</span>
-      <span className="relative h-6 w-px bg-neutral-700" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -94,36 +88,28 @@ function CenterVisual() {
         transition={{ duration: 0.6 }}
         className="relative w-full flex-1 rounded-t-xl bg-neutral-950 p-4"
       >
-        <div className="flex items-center justify-between">
-          <div className="flex gap-1.5">
-            <span className="size-2 rounded-full bg-neutral-700" />
-            <span className="size-2 rounded-full bg-neutral-700" />
-            <span className="size-2 rounded-full bg-neutral-700" />
-          </div>
-          <span className="flex items-center gap-1 rounded-md bg-neutral-900 px-1.5 py-0.5 text-[10px] text-neutral-400">
-            <Bell className="size-3" /> 3 alerts muted
-          </span>
-        </div>
-        <p className="mt-4 text-sm font-medium text-neutral-50">Pipeline health</p>
-        <div className="mt-3 space-y-3">
-          {metrics.map((m, i) => (
-            <div key={m.label}>
-              <div className="flex justify-between text-xs text-neutral-400">
-                <span>{m.label}</span>
-                <span className={m.key ? "text-neutral-50" : "text-neutral-300"}>{m.value}</span>
-              </div>
-              <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-neutral-800">
-                <motion.div
-                  className={cn("h-full rounded-full", m.key ? "bg-coral" : "bg-neutral-500")}
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${m.pct}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, delay: 0.3 + i * 0.15, ease: "easeOut" }}
-                />
-              </div>
-            </div>
+        <p className="text-sm font-medium text-neutral-50">Shortcuts</p>
+        <ul className="mt-3 space-y-2.5">
+          {shortcuts.map((s, i) => (
+            <motion.li
+              key={s.label}
+              initial={{ opacity: 0, x: -8 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.3 + i * 0.07 }}
+              className="flex items-center justify-between text-xs text-neutral-400"
+            >
+              {s.label}
+              <span className="flex gap-1">
+                {s.keys.map((k) => (
+                  <kbd key={k} className="min-w-5 rounded bg-neutral-800 px-1.5 py-0.5 text-center font-mono text-[11px] text-neutral-200">
+                    {k}
+                  </kbd>
+                ))}
+              </span>
+            </motion.li>
           ))}
-        </div>
+        </ul>
       </motion.div>
     </div>
   );

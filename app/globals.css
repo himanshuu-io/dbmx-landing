@@ -100,3 +100,13 @@ blockquote {
     scroll-behavior: auto !important;
   }
 }
+
+/* The astronaut cursor (components/astronaut-cursor.tsx) replaces the pointer; text fields keep
+   their I-beam so typing still feels normal. */
+html.astronaut-cursor,
+html.astronaut-cursor * {
+  cursor: none;
+}
+html.astronaut-cursor :is(input, textarea, select, [contenteditable="true"]) {
+  cursor: text;
+}

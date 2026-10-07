@@ -3,33 +3,37 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown } from "lucide-react";
-import { Button, Eyebrow } from "@/components/ui";
+import { Button, DownloadButton, Eyebrow } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 const faqs = [
   {
     q: "What is DBMX, in one sentence?",
-    a: "A workspace for designing multi-agent pipelines, testing them against recorded traffic and running them in production with full observability.",
+    a: "A desktop database client with a schema-aware SQL editor, an editable data grid and Stardust, an AI assistant that knows your schema.",
   },
   {
-    q: "How long does the first pipeline take?",
-    a: "Most teams have a draft running in under an hour. Describe the job in plain language or start from a template, connect the tools, then run a replay.",
+    q: "Which databases does it support?",
+    a: "PostgreSQL today, wherever it runs: your laptop, a VM, Amazon RDS, Supabase, Neon and the like. MySQL and MongoDB support is coming soon.",
   },
   {
-    q: "Which tools can agents use?",
-    a: "Over 150 managed connectors — GitHub, Slack, Postgres, Gmail, Linear, Stripe and more — plus anything you wrap with the Connector SDK.",
+    q: "Which platforms can I use it on?",
+    a: "DBMX is a native desktop app for macOS. Windows and Linux builds are on the way.",
   },
   {
-    q: "Where does my data go?",
-    a: "Credentials are encrypted at rest with per-workspace keys. Enterprise plans can pin data to a region or deploy DBMX inside your own VPC.",
+    q: "What does Stardust AI see?",
+    a: "Your table definitions (names, columns, types and constraints) and the messages you send. It never sees the rows in your tables, and it never runs queries on its own.",
   },
   {
-    q: "Can I test changes before they hit production?",
-    a: "Yes. Replays re-run real historical inputs against your new version and diff the results, so you can promote with evidence.",
+    q: "Can I use my own AI provider key?",
+    a: "Yes. Use the models that come with Stardust, or switch to bring-your-own-key and add a key for Anthropic, OpenAI, Gemini, DeepSeek, Mistral or Groq.",
   },
   {
-    q: "Can humans stay in the loop?",
-    a: "Add approval checkpoints to any step. The run pauses, notifies the right person and resumes as soon as they sign off.",
+    q: "Where are my connection details stored?",
+    a: "On your machine. Hosts, users and passwords are kept in DBMX's local app data and are never sent to our servers. You can reach private databases over SSH tunnels and SSL.",
+  },
+  {
+    q: "Is it ready for production databases?",
+    a: "DBMX is young and under active development. We'd love you to try it, and we'd suggest a read replica or a staging database before you point it at production.",
   },
 ];
 
@@ -42,12 +46,10 @@ export function Faq() {
         <Eyebrow>FAQ</Eyebrow>
         <h2 className="mt-5 text-3xl font-medium tracking-[-0.03em] text-neutral-50 md:text-4xl">Questions, answered</h2>
         <p className="mt-4 max-w-lg text-neutral-400">
-          Can&apos;t find what you need? The docs go deeper, or our team is a message away.
+          Can&apos;t find what you need? We&apos;re a message away.
         </p>
         <div className="mt-8 flex gap-3">
-          <Button href="#" variant="quiet">
-            Browse docs
-          </Button>
+          <DownloadButton variant="quiet" />
           <Button href="mailto:hello@dbmx.dev" variant="secondary">
             Contact us
           </Button>

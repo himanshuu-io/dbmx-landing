@@ -1,39 +1,39 @@
-import { ShieldCheck } from "lucide-react";
-import { Button, Eyebrow } from "@/components/ui";
+import { HardDrive, KeyRound, ScanEye } from "lucide-react";
+import { Eyebrow } from "@/components/ui";
 
-const badges = [
-  { label: "SOC 2", sub: "Type II" },
-  { label: "GDPR", sub: "EU data residency" },
-  { label: "ISO", sub: "27001" },
+const points = [
+  { icon: HardDrive, title: "Connections stay local", body: "Connection details are stored on your machine and never sent to our servers." },
+  { icon: ScanEye, title: "AI sees structure, not rows", body: "Stardust gets your table definitions and your question, never the data in them." },
+  { icon: KeyRound, title: "AI is opt-in", body: "Stardust is off until you turn it on, and you can bring your own provider key." },
 ];
 
 export function Security() {
   return (
-    <div className="mx-auto grid max-w-7xl gap-10 border-x border-divide bg-neutral-900 px-6 py-14 md:grid-cols-2 md:px-10">
+    <div
+      id="privacy"
+      className="mx-auto grid max-w-7xl scroll-mt-24 gap-10 border-x border-divide bg-neutral-900 px-6 py-14 md:grid-cols-2 md:px-10"
+    >
       <div>
-        <Eyebrow>Security by default</Eyebrow>
+        <Eyebrow>Privacy by design</Eyebrow>
         <h2 className="mt-5 text-2xl font-medium tracking-[-0.025em] text-neutral-50 md:text-3xl">
-          Enterprise controls from day one
+          Your database is none of our business
         </h2>
         <p className="mt-3 max-w-md text-neutral-400">
-          Secrets stay encrypted, every tool call is logged, and you choose where your data lives.
+          DBMX talks to your database directly from your machine. When you use AI, only what it needs to write good SQL
+          goes along with your question.
         </p>
-        <Button href="#" variant="secondary" className="mt-7">
-          Read the security overview
-        </Button>
       </div>
-      <div className="flex flex-wrap items-center justify-start gap-4 md:justify-end">
-        {badges.map((b) => (
-          <div
-            key={b.label}
-            className="flex size-28 flex-col items-center justify-center rounded-full bg-neutral-950 text-center"
-          >
-            <ShieldCheck className="size-5 text-neutral-400" />
-            <span className="mt-1.5 text-sm font-medium text-neutral-50">{b.label}</span>
-            <span className="text-[11px] text-neutral-500">{b.sub}</span>
-          </div>
+      <ul className="grid gap-3">
+        {points.map((p) => (
+          <li key={p.title} className="flex gap-4 rounded-xl bg-neutral-950 p-5">
+            <p.icon className="mt-0.5 size-5 shrink-0 text-neutral-400" />
+            <div>
+              <p className="text-sm font-medium text-neutral-50">{p.title}</p>
+              <p className="mt-1 text-sm text-neutral-400">{p.body}</p>
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

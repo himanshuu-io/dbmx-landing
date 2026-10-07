@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui";
+import { DownloadButton } from "@/components/ui";
 
-const outer = ["GH", "PG", "S3", "LN", "SL", "ST"];
-const inner = ["AI", "DB", "API", "WH"];
+const outer = ["SQL", "PG", "SSH", "CSV", "SSL", "JSON"];
+const inner = ["AI", "DB", "FK", "⌘P"];
 
 function Orbit({
   items,
@@ -41,7 +41,7 @@ function Orbit({
 
 export function Cta() {
   return (
-    <div className="relative mx-auto flex min-h-[420px] max-w-7xl flex-col items-center justify-center overflow-hidden border-x border-divide px-4 py-24 md:min-h-[480px]">
+    <div id="download" className="relative mx-auto flex min-h-[420px] scroll-mt-24 max-w-7xl flex-col items-center justify-center overflow-hidden border-x border-divide px-4 py-24 md:min-h-[480px]">
       {/* Signature gradient, kept faint: atmosphere, not a surface. */}
       <div
         aria-hidden
@@ -52,12 +52,13 @@ export function Cta() {
         <Orbit items={inner} radius={190} className="animate-orbit-reverse" counter="animate-orbit-counter-reverse" />
       </div>
       <h2 className="relative text-center text-4xl leading-[1.05] font-medium tracking-[-0.04em] text-neutral-50 md:text-6xl">
-        <span className="block">Bring your stack.</span>
-        <span className="block text-cream">Let the agents do the rest.</span>
+        <span className="block">Bring your database.</span>
+        <span className="block text-cream">Stardust brings the SQL.</span>
       </h2>
-      <Button href="#pricing" className="relative mt-8">
-        Start for free
-      </Button>
+      <p className="relative mt-5 max-w-md text-center text-neutral-400">
+        Available now for macOS. Windows and Linux are on the way.
+      </p>
+      <DownloadButton className="relative mt-8" />
     </div>
   );
 }
