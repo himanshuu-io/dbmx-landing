@@ -1,5 +1,5 @@
 #!/bin/bash
-# Installs DBMX on macOS:  curl -fsSL https://dbmx-landing.vercel.app/install.sh | bash
+# Installs DBMX on macOS:  curl -fsSL https://dbmx.app/install.sh | bash
 #
 # Downloading with curl means macOS never adds the quarantine flag, so the unsigned app
 # opens without a Gatekeeper prompt. The script downloads the latest release, copies the app
