@@ -17,7 +17,6 @@ export function UseCases() {
   return (
     <div className="relative mx-auto max-w-7xl overflow-hidden border-x border-divide px-4 py-16 md:px-8 md:py-20">
       <SectionHeading
-        eyebrow="Use cases"
         title="Built for the work you actually do"
         description="The everyday jobs of anyone who lives in a database, made shorter."
       />

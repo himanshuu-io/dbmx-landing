@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Fragment, useRef } from "react";
 import { MotionConfig, motion } from "motion/react";
-import { Button, CornerMarks, Eyebrow } from "@/components/ui";
+import { Button, CornerMarks } from "@/components/ui";
 import { InstallCommand, InstallNote } from "@/components/install-command";
 import { cn } from "@/lib/utils";
 import { BlackHole } from "@/components/black-hole";
@@ -46,11 +46,7 @@ export function Hero() {
         <span aria-hidden className="pointer-events-none absolute inset-y-0 -left-px w-px bg-divide" />
         <span aria-hidden className="pointer-events-none absolute inset-y-0 -right-px w-px bg-divide" />
         <div ref={contentRef} data-blackhole-center className="flex flex-col items-center">
-          <motion.div {...fade(0.15)}>
-            <Eyebrow>For people who ask their data strange questions</Eyebrow>
-          </motion.div>
-
-          <h1 className="mt-5 max-w-3xl text-center text-4xl leading-[1.05] font-medium tracking-[-0.04em] text-neutral-50 sm:text-5xl md:text-6xl">
+          <h1 className="max-w-3xl text-center text-4xl leading-[1.05] font-medium tracking-[-0.04em] text-neutral-50 sm:text-5xl md:text-6xl">
             {headline.map((w, i) => (
               <Fragment key={w.text}>
                 <motion.span
@@ -67,9 +63,8 @@ export function Hero() {
             ))}
           </h1>
 
-          <motion.p {...fade(afterHeadline)} className="mt-6 max-w-xl text-center text-base text-neutral-300 md:text-lg">
-            Every connection in one window, foreign keys you follow like footnotes, and Stardust, an AI
-            that&apos;s already read your schema. Ask the strange question. Get a real query back.
+          <motion.p {...fade(afterHeadline)} className="mt-6 max-w-md text-center text-base text-balance text-neutral-300 md:text-lg">
+            The AI-native database manager. Ask the strange question, get a real query back.
           </motion.p>
 
           <motion.div {...fade(afterHeadline + 0.12)} className="mt-8 flex w-full flex-col items-center">

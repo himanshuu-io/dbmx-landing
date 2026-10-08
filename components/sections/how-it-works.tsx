@@ -40,7 +40,6 @@ export function HowItWorks() {
     <div id="how-it-works" className="mx-auto max-w-7xl scroll-mt-24 border-x border-divide">
       <SectionHeading
         className="py-16 md:py-20"
-        eyebrow="How it works"
         title="From connection string to answer"
         description="Three steps between a question about your data and a result you can act on."
       />

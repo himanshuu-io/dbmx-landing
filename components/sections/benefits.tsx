@@ -36,7 +36,6 @@ export function Benefits() {
   return (
     <div className="relative mx-auto max-w-7xl overflow-hidden border-x border-divide px-4 py-16 md:px-8 md:py-20">
       <SectionHeading
-        eyebrow="Why DBMX"
         title="Made to stay out of your way"
         description="Quick to open, quiet to use and careful with your data."
       />

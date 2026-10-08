@@ -138,36 +138,18 @@ export function Shell({ className, children, id }: { className?: string; childre
   );
 }
 
-/** Section marker: quiet mono label with a small coral tick. */
-export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <p
-      className={cn(
-        "inline-flex items-center gap-2 font-mono text-xs tracking-[0.14em] text-neutral-400 uppercase",
-        className,
-      )}
-    >
-      <span aria-hidden className="size-1.5 shrink-0 rounded-[1px] bg-coral" />
-      <span className="text-balance">{children}</span>
-    </p>
-  );
-}
-
 export function SectionHeading({
-  eyebrow,
   title,
   description,
   className,
 }: {
-  eyebrow: string;
   title: ReactNode;
   description?: ReactNode;
   className?: string;
 }) {
   return (
     <div className={cn("flex flex-col items-center px-4 text-center", className)}>
-      <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="mt-5 text-3xl font-medium tracking-[-0.03em] text-neutral-50 md:text-4xl">{title}</h2>
+      <h2 className="text-3xl font-medium tracking-[-0.03em] text-neutral-50 md:text-4xl">{title}</h2>
       {description && <p className="mt-4 max-w-lg text-base text-neutral-400">{description}</p>}
     </div>
   );

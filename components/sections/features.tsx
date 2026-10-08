@@ -15,7 +15,6 @@ export function Features() {
     <div id="features" className="mx-auto max-w-7xl scroll-mt-24 border-x border-divide">
       <SectionHeading
         className="py-16 md:py-20"
-        eyebrow="Features"
         title="Everything you reach for, in one window"
         description="An editor that knows your schema, a grid you can edit and an assistant that has read every table."
       />

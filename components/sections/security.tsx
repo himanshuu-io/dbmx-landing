@@ -1,5 +1,4 @@
 import { HardDrive, KeyRound, ScanEye } from "lucide-react";
-import { Eyebrow } from "@/components/ui";
 
 const points = [
   { icon: HardDrive, title: "Connections stay local", body: "Connection details are stored on your machine and never sent to our servers." },
@@ -14,8 +13,7 @@ export function Security() {
       className="mx-auto grid max-w-7xl scroll-mt-24 gap-10 border-x border-divide bg-neutral-900 px-6 py-14 md:grid-cols-2 md:px-10"
     >
       <div>
-        <Eyebrow>Privacy by design</Eyebrow>
-        <h2 className="mt-5 text-2xl font-medium tracking-[-0.025em] text-neutral-50 md:text-3xl">
+        <h2 className="text-2xl font-medium tracking-[-0.025em] text-neutral-50 md:text-3xl">
           Your database is none of our business
         </h2>
         <p className="mt-3 max-w-md text-neutral-400">

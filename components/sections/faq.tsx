@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown } from "lucide-react";
-import { Button, DownloadButton, Eyebrow } from "@/components/ui";
+import { Button, DownloadButton } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 const faqs = [
@@ -47,8 +47,7 @@ export function Faq() {
   return (
     <section id="faq" className="mx-auto max-w-7xl scroll-mt-24 border-x border-divide">
       <div className="flex flex-col items-center px-4 pt-12 text-center">
-        <Eyebrow>FAQ</Eyebrow>
-        <h2 className="mt-5 text-3xl font-medium tracking-[-0.03em] text-neutral-50 md:text-4xl">Questions, answered</h2>
+        <h2 className="text-3xl font-medium tracking-[-0.03em] text-neutral-50 md:text-4xl">Questions, answered</h2>
         <p className="mt-4 max-w-lg text-neutral-400">
           Can&apos;t find what you need? We&apos;re a message away.
         </p>
