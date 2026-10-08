@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DBMX — The AI-native database client",
+  title: "DBMX - AI-native database manager",
   description:
     "DBMX is a fast desktop database client with a schema-aware editor, an editable data grid and Stardust, an AI assistant that knows your schema.",
 };
