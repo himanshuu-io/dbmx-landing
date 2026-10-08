@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ComponentProps, CSSProperties, ReactNode } from "react";
 import { Download } from "lucide-react";
-import { MAC_DOWNLOAD_URL } from "@/lib/links";
 import { cn } from "@/lib/utils";
 
 /**
@@ -111,16 +110,16 @@ export function Button({ variant = "primary", className, ...props }: ButtonProps
   return <a className={buttonClass(variant, className)} {...props} />;
 }
 
-/** The site's main action. A plain anchor, since the target is a file rather than a page. */
+/** Jumps to the install command in the #download section (the app is installed from Terminal). */
 export function DownloadButton({
   variant = "primary",
   className,
   ...props
 }: Omit<ComponentProps<"a">, "href" | "children"> & { variant?: ButtonVariant }) {
   return (
-    <a href={MAC_DOWNLOAD_URL} download className={buttonClass(variant, cn("gap-2", className))} {...props}>
+    <a href="#download" className={buttonClass(variant, cn("gap-2", className))} {...props}>
       <Download className="size-4" />
-      Download for macOS
+      Install for macOS
     </a>
   );
 }

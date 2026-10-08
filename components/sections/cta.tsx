@@ -1,4 +1,4 @@
-import { DownloadButton } from "@/components/ui";
+import { InstallCommand, InstallNote } from "@/components/install-command";
 
 const outer = ["SQL", "PG", "SSH", "CSV", "SSL", "JSON"];
 const inner = ["AI", "DB", "FK", "⌘P"];
@@ -58,7 +58,8 @@ export function Cta() {
       <p className="relative mt-5 max-w-md text-center text-neutral-400">
         Available now for macOS. Windows and Linux are on the way.
       </p>
-      <DownloadButton className="relative mt-8" />
+      <InstallCommand className="relative mt-8" />
+      <InstallNote className="relative mt-4" />
     </div>
   );
 }

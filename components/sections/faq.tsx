@@ -20,6 +20,10 @@ const faqs = [
     a: "DBMX is a native desktop app for macOS. Windows and Linux builds are on the way.",
   },
   {
+    q: "Why do I install it from Terminal?",
+    a: "DBMX isn't notarised by Apple yet, so macOS blocks a .dmg downloaded in your browser from opening. The install command downloads the same .dmg with curl, which macOS doesn't flag, and copies DBMX into Applications. You can read the script at dbmx-landing.vercel.app/install.sh before running it. If you'd rather use the .dmg, open it once, then click Open Anyway in System Settings → Privacy & Security.",
+  },
+  {
     q: "What does Stardust AI see?",
     a: "Your table definitions (names, columns, types and constraints) and the messages you send. It never sees the rows in your tables, and it never runs queries on its own.",
   },

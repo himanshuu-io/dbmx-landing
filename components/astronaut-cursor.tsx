@@ -15,7 +15,7 @@ const SPAG_START = 2.4;
 const SPAG_FULL = 0.55;
 const MAX_STRETCH = 2.4;
 
-// Idle drift toward the hero download button (marked `data-astronaut-target`): it starts
+// Idle drift toward the hero install button (marked `data-astronaut-target`): it starts
 // after IDLE_DELAY ms without movement and accelerates like a slow fall up to DRIFT_MAX px/s.
 const IDLE_DELAY = 1500;
 const DRIFT_ACCEL = 45;
@@ -31,7 +31,7 @@ const TEXT_ENTRY = "input, textarea, select, [contenteditable='true']";
 /**
  * Replaces the mouse pointer with an astronaut that always turns its helmet toward the
  * black hole, is stretched thin (spaghettified) as it nears the event horizon and red-shifts
- * inside it. Left idle, it drifts toward the hero download button. Only mounts its behaviour on fine, hovering pointers; touch devices and text
+ * inside it. Left idle, it drifts toward the hero install button. Only mounts its behaviour on fine, hovering pointers; touch devices and text
  * fields keep their native cursor.
  */
 export function AstronautCursor() {

@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { Fragment, useRef } from "react";
 import { MotionConfig, motion } from "motion/react";
-import { Button, CornerMarks, DownloadButton, Eyebrow } from "@/components/ui";
+import { Button, CornerMarks, Eyebrow } from "@/components/ui";
+import { InstallCommand, InstallNote } from "@/components/install-command";
 import { cn } from "@/lib/utils";
 import { BlackHole } from "@/components/black-hole";
 import appScreenshot from "@/public/product/app.png";
@@ -71,11 +72,14 @@ export function Hero() {
             that&apos;s already read your schema. Ask the strange question. Get a real query back.
           </motion.p>
 
-          <motion.div {...fade(afterHeadline + 0.12)} className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <DownloadButton data-astronaut-target />
-            <Button href="#features" variant="secondary">
-              See features
-            </Button>
+          <motion.div {...fade(afterHeadline + 0.12)} className="mt-8 flex w-full flex-col items-center">
+            <div className="flex w-full flex-wrap items-center justify-center gap-3">
+              <InstallCommand data-astronaut-target />
+              <Button href="#features" variant="secondary" className="h-11">
+                See features
+              </Button>
+            </div>
+            <InstallNote className="mt-4" />
           </motion.div>
 
           <motion.div
