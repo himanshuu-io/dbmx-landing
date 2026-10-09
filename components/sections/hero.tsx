@@ -106,7 +106,7 @@ export function Hero() {
             {/* Served as the original PNG: re-encoding blurs the small monospace text. */}
             <Image
               src={appScreenshot}
-              alt="DBMX showing a database table in the data grid, with Stardust AI describing the database schema alongside"
+              alt="DBMX on the macOS desktop, showing a database table in the data grid with Stardust AI summarizing the database schema alongside"
               unoptimized
               sizes="(min-width: 1280px) 1184px, 100vw"
               priority
