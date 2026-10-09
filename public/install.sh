@@ -39,24 +39,30 @@ fmt_time() {
 # Downloads $1 to $2, redrawing one status line with size, speed, elapsed and remaining time.
 download() {
   local url="$1" dest="$2"
+  # Give up if the download stays under 1 KB/s for 30 seconds instead of hanging forever.
+  local stall=(--speed-limit 1024 --speed-time 30)
 
   # No terminal to redraw on, so just download quietly.
   if [ ! -t 2 ]; then
-    curl -fsSL "$url" -o "$dest"
+    curl -fsSL "${stall[@]}" "$url" -o "$dest"
     return
   fi
 
-  # Follow redirects and take the final response's Content-Length; 0 if the server doesn't say.
-  local total
-  # Capped so a slow size lookup can't hold up the download with nothing on screen.
-  total="$(curl -fsSLI --max-time 5 "$url" | tr -d '\r' | awk 'tolower($1) == "content-length:" { n = $2 } END { print n + 0 }')" || total=0
-
-  curl -fsSL "$url" -o "$dest" &
+  # No -S: errors are reported below so they don't land on the progress line. curl writes
+  # each response's headers here as they arrive, so the size is known as soon as
+  # the body starts, without a separate request.
+  local headers="${WORK_DIR}/headers"
+  curl -fsL "${stall[@]}" -D "$headers" "$url" -o "$dest" &
   CURL_PID=$!
-  local start=$SECONDS done_bytes elapsed speed line
+  local start=$SECONDS total=0 done_bytes elapsed speed line
 
   while kill -0 "$CURL_PID" 2>/dev/null; do
     done_bytes="$(stat -f%z "$dest" 2>/dev/null || echo 0)"
+    # Once the body is arriving the final response's headers are written, so the last
+    # Content-Length is the file's (earlier ones belong to redirects). 0 if the server doesn't say.
+    if [ "$total" -eq 0 ] && [ "$done_bytes" -gt 0 ]; then
+      total="$(tr -d '\r' < "$headers" | awk 'tolower($1) == "content-length:" { n = $2 } END { print n + 0 }')"
+    fi
     elapsed=$((SECONDS - start))
     line="  $(fmt_size "$done_bytes")"
     if [ "$total" -gt 0 ]; then
@@ -79,7 +85,11 @@ download() {
   CURL_PID=""
   if [ "$status" -ne 0 ]; then
     printf '\r\033[K' >&2
-    echo "Download failed (curl exit code ${status})." >&2
+    if [ "$status" -eq 28 ]; then
+      echo "Download stalled. GitHub may be slow right now, so try again in a few minutes." >&2
+    else
+      echo "Download failed (curl exit code ${status})." >&2
+    fi
     exit 1
   fi
 
