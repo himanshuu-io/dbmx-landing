@@ -48,7 +48,8 @@ download() {
 
   # Follow redirects and take the final response's Content-Length; 0 if the server doesn't say.
   local total
-  total="$(curl -fsSLI "$url" | tr -d '\r' | awk 'tolower($1) == "content-length:" { n = $2 } END { print n + 0 }')" || total=0
+  # Capped so a slow size lookup can't hold up the download with nothing on screen.
+  total="$(curl -fsSLI --max-time 5 "$url" | tr -d '\r' | awk 'tolower($1) == "content-length:" { n = $2 } END { print n + 0 }')" || total=0
 
   curl -fsSL "$url" -o "$dest" &
   CURL_PID=$!
