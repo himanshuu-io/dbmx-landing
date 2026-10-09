@@ -6,7 +6,7 @@
 # into /Applications and cleans up after itself.
 set -euo pipefail
 
-DMG_URL="https://github.com/stardust1420/dbmx/releases/latest/download/dbmx.dmg"
+DMG_URL="https://github.com/stardust1420/dbmx/releases/download/1.0.1/dbmx.dmg"
 INSTALL_DIR="${DBMX_INSTALL_DIR:-/Applications}"
 
 if [ "$(uname -s)" != "Darwin" ]; then
