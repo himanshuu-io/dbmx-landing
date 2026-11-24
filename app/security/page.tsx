@@ -46,7 +46,11 @@ export default function Security() {
         </ul>
         <p className="text-neutral-400">
           It never receives a plaintext connection, a private key, the recovery code or a
-          connection name.
+          connection name. It does store, unencrypted, the metadata it needs to route shares:
+          org and member names and emails, device names, who shares with whom and when, the
+          audience, default access, login mode, whether a password is included, and versions
+          and timestamps. So the server sees who shares with whom and how (read or write,
+          created login or password included), just not what the connection is.
         </p>
       </Section>
 
@@ -88,7 +92,7 @@ export default function Security() {
           For each member you can have dbmx create a dedicated database login (read-only, or read
           &amp; write) on your database, or share your own credentials, or share the connection
           with no password so they use their own. You see every statement before it runs. A
-          created login has a random name and a random 32-character password, and is dropped
+          created login has a generated name (dbmx_&lt;first name&gt;_&lt;4 random characters&gt;) and a random 32-character password, and is dropped
           when you stop sharing or remove the member. If your database is unreachable at that
           moment, the drop is queued and retried, and the checklist shows it as pending.
         </p>
@@ -96,8 +100,9 @@ export default function Security() {
 
       <Section title="If the server is breached">
         <p className="text-neutral-400">
-          An attacker who copies the database gets public keys, sealed identities and encrypted
-          blobs. Without your devices&apos; keys or your recovery code, none of it can be opened.
+          An attacker who copies the database gets public keys, sealed identities, encrypted
+          blobs and the metadata above: names, emails, devices, and who shares with whom, when
+          and how. Without your devices&apos; keys or your recovery code, none of it can be opened.
           They could try to guess a recovery code offline, which is why it is 160 random bits
           behind Argon2id.
         </p>
@@ -106,7 +111,7 @@ export default function Security() {
       <Section title="What a hacked server cannot do">
         <ul className="list-disc space-y-1 pl-5 text-neutral-400">
           <li>Read a share, or learn a connection&apos;s name, host or password.</li>
-          <li>Forge a share: it must be signed by the sharer&apos;s pinned identity.</li>
+          <li>Forge a share from a teammate whose key you&apos;ve pinned: it must be signed by their pinned identity.</li>
           <li>
             Add a device that receives shares: device certificates must verify under the
             owner&apos;s pinned identity.
@@ -116,6 +121,12 @@ export default function Security() {
 
       <Section title="The limits">
         <ul className="list-disc space-y-2 pl-5 text-neutral-400">
+          <li>
+            Membership is the server&apos;s call. A hacked server can add a fake teammate or show
+            you an attacker&apos;s key the first time you see a teammate. dbmx asks before sharing
+            team-wide connections with a new member and shows their fingerprint; check it with
+            them.
+          </li>
           <li>
             A hacked server can withhold or delete shares and keys. That is a denial of service,
             not a leak.
