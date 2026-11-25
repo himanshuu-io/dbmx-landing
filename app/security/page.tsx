@@ -91,10 +91,14 @@ export default function Security() {
         <p className="text-neutral-400">
           For each member you can have dbmx create a dedicated database login (read-only, or read
           &amp; write) on your database, or share your own credentials, or share the connection
-          with no password so they use their own. You see every statement before it runs. A
-          created login has a generated name (dbmx_&lt;first name&gt;_&lt;4 random characters&gt;) and a random 32-character password, and is dropped
-          when you stop sharing or remove the member. If your database is unreachable at that
-          moment, the drop is queued and retried, and the checklist shows it as pending.
+          with no password so they use their own. You see every statement before it runs. Only a
+          created login enforces read-only: with your credentials or their own, a member has
+          whatever access that login has. A created login has a generated name
+          (dbmx_&lt;first name&gt;_&lt;4 random characters&gt;) and a random 32-character
+          password, and is dropped when you stop sharing, when you remove the member, or when
+          the member leaves or the team is deleted (on your next sync, on the device you shared
+          from). If your database is unreachable at that moment, the drop is queued and retried,
+          and dbmx lists it as pending. Logging out of dbmx revokes nothing.
         </p>
       </Section>
 
@@ -155,7 +159,9 @@ export default function Security() {
           </li>
           <li>
             Once a member has seen a connection, you cannot take back what they saw. Removing
-            them drops their login, but if they know a shared password, change it.
+            them drops the login dbmx created for them, but if they know a shared password,
+            change it. The drop runs from the device you shared from, so it waits until that
+            device next syncs.
           </li>
           <li>The dbmx app is not code-signed yet, so your system may warn when you open it.</li>
         </ul>
