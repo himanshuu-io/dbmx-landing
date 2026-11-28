@@ -15,19 +15,22 @@ export function InviteHelp() {
   if (!new URLSearchParams(link.split("?")[1] ?? "").has("token")) return null;
 
   return (
-    <button
-      type="button"
-      className="rounded-md border border-neutral-700 px-4 py-2 text-sm hover:bg-neutral-800"
-      onClick={async () => {
-        try {
-          await navigator.clipboard.writeText(link);
-          setCopied(true);
-        } catch {
-          setCopied(false);
-        }
-      }}
-    >
-      {copied ? "Copied" : "Copy invite link"}
-    </button>
+    <div className="space-y-3">
+      <p className="text-neutral-400">Or copy this link and paste it there.</p>
+      <button
+        type="button"
+        className="rounded-md border border-neutral-700 px-4 py-2 text-sm hover:bg-neutral-800"
+        onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(link);
+            setCopied(true);
+          } catch {
+            setCopied(false);
+          }
+        }}
+      >
+        {copied ? "Copied" : "Copy invite link"}
+      </button>
+    </div>
   );
 }

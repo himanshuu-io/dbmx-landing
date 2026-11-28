@@ -16,7 +16,7 @@ export default function Invite() {
       <div className="max-w-md space-y-3">
         <h1 className="text-2xl font-semibold">You&apos;re invited to a team on dbmx</h1>
         <p className="text-neutral-400">
-          Open dbmx, go to Team → Invites, and accept. Or paste this link there.
+          Open dbmx, go to Plan &amp; Team → Invites, and accept.
         </p>
         <InviteHelp />
         <p className="text-sm text-neutral-500">
